@@ -1,0 +1,203 @@
+禁用独立显卡
+
+查看你的系统是否有 / sys/kernel/debug/vgaswitcheroo/switch 这个文件，如果有，在 / etc/rc.local 中添加下面两句：
+
+echo IGD > /sys/kernel/debug/vgaswitcheroo/switch
+echo OFF > /sys/kernel/debug/vgaswitcheroo/switch
+
+这样就可以在开机的时候关闭独显，仅仅使用集显。
+
+查看是否关闭独显
+使用如下命令：
+
+sudo -s
+cat /sys/kernel/debug/vgaswitcheroo/switch
+
+如果显示如下：
+
+0:IGD:+:Pwr:0000:00:02.0
+1:DIS: :Off:0000:01:00.0
+
+证明独显关闭成功。
+
+1. 安装好后第一步是排列源 (在终端输入）：
+sudo pacman-mirrors -g -c China 或sudo pacman-mirrors --geoip && sudo pacman -Syy  (sudo pacman-mirrors -gb testing -c China)
+然后同步：
+sudo pacman-optimize&& sync
+升级系统：
+sudopacman -Syyu
+有可能产生的问题：
+（1）运行 sudo pacman -Syyu 提示无法锁定 database 的错误：
+运行这个命令：sudorm /var/lib/pacman/db.lck
+（2）运行 sudo pacman -Syyu 提示 Keys 错误，GPG 啥的，依次运行以下命令：
+sudo rm -r /etc/pacman.d/gnupg（移除旧的 keys）
+sudo pacman -Sy gnupg archlinux-keyring manjaro-keyring（重新安装最新 keys）
+sudo pacman-key --init（初始化 pacman 的 keys）
+sudo pacman-key --populate archlinux manjaro（加载签名的 keys）
+sudo pacman-key –refresh-keys（刷新升级已签名 keys）
+sudo pacman -Sc（清空并下载新数据）
+最后运行： 
+
+sudo pacman -Syu
+
+2. 完成以上步骤后，可添加 archlinuxCN 源，方便我们安装 Chrome 等软件： sudo nano /etc/pacman.conf
+在打开的文件最后黏贴上以下几行：
+[archlinuxcn]
+SigLevel = Optional TrustedOnly
+Server = http://repo.archlinuxcn.org/$arch
+按 ctrl+X 键保存，y 确认，回车。
+之后同步一下：sudo pacman -Syyu
+导入 GPG key：sudo pacman -S archlinuxcn-keyring
+
+pacman 显示彩色输出
+编辑 /etc/pacman.conf，取消第 34 行 Color 前的井号 “#”。
+
+
+fcitx 
+# pacman -S fcitx fcitx-im fcitx-rime fcitx-configtool
+仅安装是不够的，还需要一些配置。打开~/.xprofile，写入以下几行。如果没有这个文件则创建。
+
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS="@im=fcitx"
+fcitx
+安装完 fcitx 之后，如果想要立即运行，那么就在终端中输入fcitx即可。所有的配置项，都可以在 fcitx 的图形配置工具中设置。
+
+
+pacman -Ss xchm dukto  notepadqq leafpad aria2 glances catfish bilidan galculator lantern mpv sakura  you-get youtube-dl alex wget qutebrowser unrar rar dos2unix
+yaourt -Ss google-chrome
+
+aria2c --conf-path=/home/chengen/下载/aria2-linux/aria2.conf -D
+redshift -l 25:118 -t 5700:3600 -g 0.8 -m randr -v &
+
+
+要恢复到纯 64 位系统，删除 multilib:
+运行下面命令可以删除所有从 multilib 安装的软件:
+# pacman -Rc $(paclist multilib | cut -f1 -d' ')
+如果有 gcc-libs 冲突，重新安装 64-bit 版本并执行下面命令：
+# pacman -S gcc-libs base-devel
+在  /etc/pacman.conf 中注释掉 [multilib] 段落：
+#[multilib]
+#Include = /etc/pacman.d/mirrorlist
+用 pacman -Syu 更新软件包列表和软件包.(manjaro-alsa)
+
+ sudo pacman -S shadowsocks-qt5 lantern  ranger (ranger 是一个基于文本的文件管理器。在一个面板的三列中进行展示. )
+ sudo pacman -S netease-cloud-music wqy
+community/wkhtmltopdf winff(ffmpeg前端）
+mkdir -p /.../.../...
+ranger设置显示隐藏文件
+
+sudo pacman -S seahorse  解锁删  卸载gimp pcmanfm bluetooth urxvt hexchat vlc manjaro-hello pamac
+
+yaourt -S archlinuxcn/unzip-natspec( 结局zip 文件解压乱码）
+sudo pacman -S virtualbox archlinuxcn/ttf-wps-fonts
+然后，有必要选择适当的 VirtualBox 主机模块进行安装，具体取决于当前运行的内核版本。 而是像安装驱动程序，这样做将确保 VirtualBox 能够正常运行。 例如，在运行内核 3.7 时，将输入相应的数字来安装以下模块：
+uname -r
+你会有类似的：3.7.4-1-MANJARO。 这意味着内核是 linux37。 然后安装它
+sudo pacman -S linux37-virtualbox-host-modules
+一旦安装完成，将需要添加 VirtualBox 模块到你的内核。 简单的方法是简单地重新启动系统。 否则，要立即开始使用 VirtualBox，请输入以下命令：
+sudo modprobe vboxdrv
+下面列出的命令将名为 “carl” 的个人用户帐户添加到 vbox 用户组：
+sudo gpasswd -a chengen vboxusers
+现在重新启动系统以使更改生效。还有扩展包
+
+yaourt -Ss wps  ttf-microsoft
+
+community/pinta -linux下的画图
+i3   xcompmgr 如果需要终端透明。！！
+  scrot 截屏。
+
+sudo pacman -S audacious osdlyrics
+
+提取音频流  ffmpeg -i 1.mp4 -acoder copy -vn 1.mp3
+截取视频  ffmpeg -ss 0:0:30 -t 0:0:20 -i 1.mp4 -vcodec copy -acodec copy output.mp4    -ss 开始时间，-t 持续时间
+合併視頻   mencoder -ovc copy -oac mp3lame 0.flv 2.flv 3.flv -o test.flv  
+
+hexdump Noname2.txt
+unix2dos Noname2.txt
+
+压缩 tar -cf- 1.txt mydir |pigz>sobig.tar.pigz 或tar --use-compress-program=pigz -cvf so.tar.pigz 1.txt mydir
+解压 pigz -dc sobig.tar.pigz |tar -xvf- 或tar -xzvf so.tar.pigz
+
+
+分卷压缩 1  rar a -v10m -m1 outfile.rar inputfile  或cat inputfile |split -d -b 10m
+                 rar x outputfile.part1.rar     或cat x* >outputfile
+
+安装tget npm install -g t-get(参考http://blog.topspeedsnail.com/archives/9934）
+ tget test.torrent
+  tget 'magnet:?xt=urn:btih:0403fb4728bd788fbcb67e87d6feb241ef38c75a'
+
+sudo pacman -S thefuck && nano ~/.bashrc
+添加  	eval "$(thefuck --alias fuck)"  并   source ~/.bashrc（http://blog.topspeedsnail.com/archives/5049或https://segmentfault.com/a/1190000002740344）
+
+使用 cmus 与 alsa
+当使用具有高级 Linux 声音体系结构的 cmus 时，默认配置不允许播放音乐。 尝试启动 cmus 时可能会遇到的是没有任何输出的空白终端线。 要修复它，请创建一个新的配置文件并设置以下变量
+〜/ .config / cmus / rc
+set output_plugin = alsa 
+set dsp.alsa.device = default 
+set mixer.alsa.device = default 
+set mixer.alsa.channel = Master
+
+touch ~/.vimrc
+vim .vimrc    imap jk <ESC>    在编辑模式下按jk代替esc
+imap jk <ESC>
+
+" 语法高亮
+ syntax enable
+
+
+" 搜索高亮
+ set hls
+并且在/etc/vimrc中也修改
+
+清除分区内容 fdisk -l    dd if=/dev/zero of=/dev/sdax bs=1M status=progress
+
+截图 一般用法
+在 scrot 一般用法中常的选项是 - b 和 - s 两个。
+-b：该选项使 scrot 抓取窗口时将窗口的外边框一同抓取下来
+-s：让用户来选择要抓取的窗口或选区
+以下是几个示例：
+抓取桌面：scrot desktop.png 
+该命令将当前整个桌面抓取下来，并保存为 desktop.png 图片文件，默认存储路径为当前所在目录，可以指定存放路径，如：scrot ~/img/desktop.png
+抓取窗口：scrot -bs window.png 
+执行该命令后终端阻塞，等待用户选择要截取的窗口；与抓取桌面类似，图片存储在当前目录，也可以指定其它存储目录
+抓取区域：scort -s rectangle.png 
+与抓取窗口一样，命令执行后终端阻塞，直到用户使用鼠标拖拽一个矩形区域作为要抓取的选区或其它打断截屏的操作，文件的存储与前面两个例子一样。
+高级用法
+一般情况下仅使用 - b 和 - s 两个选项就可以完成大部分的截屏需要了，但在某些特殊情况，可能还需要其它的较为高级的选项
+下面用几个示例来说明：
+1．延时抓取：scrot -cd 10 delay.png
+该例子中的 - d 选项用于延时抓取图像，其后的参数 10 代表延迟 10 秒；-c 参数表示显示倒计时。
+2．生成缩略图：scrot -t 60% thumb.png
+选项 - t 开启缩略图功能，其后的 60% 表示存储图像为原图的缩放百分比。
+3．更改品质：scrot -q 90 quality.jpg
+此例中的 - q 用于更改抓取图像的品质，其后参数的数值介于 1-100 之间，默认为 75；该数值越大，意味着图像品质越高；同时，图像的压缩率也就越低，占用空间越大。
+4．操作抓图：scrot action.png -e 'mv $f ~/images/'
+该例子将抓取的图像移动到~/images / 目录，-e 可以理解为执行一段命令，其中的 $f 表示原图的绝对路径；其实本例子完全不需要存在，我们可以在抓取图片时就指定存储位置，例如：scrot ~/images/action.png
+从 scort 的命令格式也可以看出，图像的文件名是可选的；以上示例都指定的文件名，实际上，如果不指定文件名，那么 scrot 在抓取图像后会自动使用当前的日期时间、宽度高度的组合来生成文件名称（如 2014-10-06-152200_1366x740_scrot.png）。
+使用 imagemagick，您可以通过以下方式截取屏幕截图：
+
+1. 使用导入命令采取桌面截图
+
+此命令采用所有当前活动的窗口的整个屏幕的截图。
+
+$ import -window root image1.png
+2. 使用导入命令获取屏幕的选定区域
+
+运行此命令将鼠标指针转换为十字光标，可用于选择屏幕的任何区域并截取该部分的屏幕截图。
+
+# import calc.png
+
+ 在 Arch Linux 上安装 Node.js
+  2 
+  3 Node.js 在 Arch Linux 的社区库中可以找到。所以安装很简单，只要运行：
+  4 
+  5 $ sudo pacman -S nodejs npm
+  6 yaourt -S aur/nodejs-hexo-cli
+  7 
+  8 https://hexo.io/zh-cn/docs/commands.html
+  9 注意 执行hexo d类命令时要在那个文件夹下。pwd是否正确 
+ 10 
+ 11 $npm install hexo-deployer-git --save
+ 12 
+
