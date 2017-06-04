@@ -54,7 +54,7 @@ pacman 显示彩色输出
 
 
 fcitx 
-# pacman -S fcitx fcitx-im fcitx-rime fcitx-configtool
+pacman -S fcitx fcitx-im fcitx-rime fcitx-configtool
 仅安装是不够的，还需要一些配置。打开~/.xprofile，写入以下几行。如果没有这个文件则创建。
 
 export GTK_IM_MODULE=fcitx
@@ -73,12 +73,12 @@ redshift -l 25:118 -t 5700:3600 -g 0.8 -m randr -v &
 
 要恢复到纯 64 位系统，删除 multilib:
 运行下面命令可以删除所有从 multilib 安装的软件:
-# pacman -Rc $(paclist multilib | cut -f1 -d' ')
+pacman -Rc $(paclist multilib | cut -f1 -d' ')
 如果有 gcc-libs 冲突，重新安装 64-bit 版本并执行下面命令：
-# pacman -S gcc-libs base-devel
+pacman -S gcc-libs base-devel
 在  /etc/pacman.conf 中注释掉 [multilib] 段落：
-#[multilib]
-#Include = /etc/pacman.d/mirrorlist
+`#[multilib]
+#Include = /etc/pacman.d/mirrorlist`
 用 pacman -Syu 更新软件包列表和软件包.(manjaro-alsa)
 
  sudo pacman -S shadowsocks-qt5 lantern  ranger (ranger 是一个基于文本的文件管理器。在一个面板的三列中进行展示. )
@@ -186,18 +186,14 @@ $ import -window root image1.png
 
 运行此命令将鼠标指针转换为十字光标，可用于选择屏幕的任何区域并截取该部分的屏幕截图。
 
-# import calc.png
+$ import calc.png
 
  在 Arch Linux 上安装 Node.js
-  2 
-  3 Node.js 在 Arch Linux 的社区库中可以找到。所以安装很简单，只要运行：
-  4 
-  5 $ sudo pacman -S nodejs npm
-  6 yaourt -S aur/nodejs-hexo-cli
-  7 
-  8 https://hexo.io/zh-cn/docs/commands.html
-  9 注意 执行hexo d类命令时要在那个文件夹下。pwd是否正确 
- 10 
- 11 $npm install hexo-deployer-git --save
- 12 
+Node.js 在 Arch Linux 的社区库中可以找到。所以安装很简单，只要运行：
+$ sudo pacman -S nodejs npm
+ yaourt -S aur/nodejs-hexo-cli
+ https://hexo.io/zh-cn/docs/commands.html
+ 注意 执行hexo d类命令时要在那个文件夹下。pwd是否正确 
+$npm install hexo-deployer-git --save
+
 
